@@ -11,21 +11,21 @@ substitutions:
 
 # Define zone id and name
   zone_id:   kok
-  zone_name: RC Kök
+  zone_name: RK Kök
 #  zone_id:   hall
-#  zone_name: RC Hall
+#  zone_name: RK Hall
 #  zone_id:   duschrum
-#  zone_name: RC Duschrum
+#  zone_name: RK Duschrum
 #  zone_id:   vardagsrum
-#  zone_name: RC Vardagsrum
+#  zone_name: RK Vardagsrum
 #  zone_id:   arbetsrum
-#  zone_name: RC Arbetsrum
+#  zone_name: RK Arbetsrum
 #  zone_id:   barnrum
-#  zone_name: RC Barnrum
+#  zone_name: RK Barnrum
 #  zone_id:   sovrum
-#  zone_name: RC Sovrum
+#  zone_name: RK Sovrum
 #  zone_id:   teverum
-#  zone_name: RC Teverum
+#  zone_name: RK Teverum
 
 # Board configuration
 esphome:
