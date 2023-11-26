@@ -1,0 +1,76 @@
+#
+# ESP Room Climate Sensor
+#
+# https://github.com/jnasholm/rcs/tree/main
+#
+# Main configuration
+#
+substitutions:
+  node_name: rcs1
+  node_prefix: RC1
+
+# Define zone id and name
+  zone_id:   kok
+  zone_name: RC Kök
+#  zone_id:   hall
+#  zone_name: RC Hall
+#  zone_id:   duschrum
+#  zone_name: RC Duschrum
+#  zone_id:   vardagsrum
+#  zone_name: RC Vardagsrum
+#  zone_id:   arbetsrum
+#  zone_name: RC Arbetsrum
+#  zone_id:   barnrum
+#  zone_name: RC Barnrum
+#  zone_id:   sovrum
+#  zone_name: RC Sovrum
+#  zone_id:   teverum
+#  zone_name: RC Teverum
+
+# Board configuration
+esphome:
+  project:
+    name: "jnasholm.rcs"
+    version: "0.1"
+  name: $node_name
+
+esp8266:
+  board: d1_mini
+  restore_from_flash: true
+
+# Flash write interval
+preferences:
+  flash_write_interval: 20min
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret hass_api_key
+
+# Enable OTA
+ota:
+  password: !secret ota_password
+
+# Node switches
+switch:
+  - platform: restart
+    name: $node_prefix starta om nod
+#  - platform: shutdown
+#    name: $node_prefix stäng av nod
+
+# Node uptime
+sensor:
+  - platform: uptime
+    name: $node_prefix drifttid
+    icon: mdi:timer-outline
+    update_interval: 60s
+
+# Include packages
+packages:
+  wifi: !include wifi.yaml
+  time: !include time.yaml
+  status: !include status.yaml
+  room_climate: !include sensors-room_climate.yaml
