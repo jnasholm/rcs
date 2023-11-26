@@ -87,17 +87,18 @@ sensor:
 #    sensor: floor_temperature_analog_measure
 #    configuration: DOWNSTREAM
 #    resistor: 10kOhm
-#  # Voltage measurement (range 0.15-2.45V)
+#  # Voltage measurement (range 0.15-1.00V)
 #  - platform: adc
 #    id: floor_temperature_analog_measure
-#    pin: ADC0
+#    pin: A0
 #    update_interval: never
-#    attenuation: 11db
+#    #attenuation: 11db
 #    filters:
 #      - exponential_moving_average:
 #          alpha: 0.06
 #          send_every: 3
 #          send_first_at: 1
+#      #- multiply: 3.3
 #
 ## Analog temperature sensor power source configuration
 #switch:
