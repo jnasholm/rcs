@@ -7,7 +7,7 @@
 #
 substitutions:
   node_name: rcs1
-  node_prefix: RC1
+  node_prefix: RK1
 
 # Define zone id and name
   zone_id:   kok
