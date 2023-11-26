@@ -1,0 +1,116 @@
+# Floor temperature sensor configuration
+
+# Digital floor temperature sensor bus configuration
+#dallas:
+#  - pin: GPIO12
+#    id: floor_temperature_bus
+#    update_interval: 20s
+
+# Sensor configurations
+sensor:
+  # Active floor temperature sensor (automatic fail-over with backup value)
+  - platform: template
+    name: $node_prefix golvtemperatur
+    id: floor_temperature
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+    state_class: measurement
+    accuracy_decimals: 2
+    update_interval: 20s
+    lambda: |-
+      if ( id(floor_temperature_remote).state > 0.0 )
+        return id(floor_temperature_remote).state;
+      //if ( id(floor_temperature_analog).state > 0.0 )
+      //  return id(floor_temperature_analog).state;
+      //if ( id(floor_temperature_digital).state > 0.0 )
+      //  return id(floor_temperature_digital).state;
+      return 10.0;
+
+  # Remote floor temperature sensor (Home Assistant)
+  - platform: homeassistant
+    id: floor_temperature_remote
+    accuracy_decimals: 2
+    entity_id: sensor.${zone_id}_golvtemperatur
+    filters:
+      - heartbeat: 20s
+
+#  # Digital floor temperature sensor (DS18B20)
+#  - platform: dallas
+#    name: $node_prefix golvtemperatur digital
+#    id: floor_temperature_digital
+#    accuracy_decimals: 2
+#    dallas_id: floor_temperature_bus
+#    address: 0x2c0000081d200d28
+#    resolution: 12
+
+#  # Analog floor temperature sensor (NTC)
+#  # NTC Beta factor calculated according to the equation below
+#  # https://www.ametherm.com/thermistor/ntc-thermistor-beta
+#  - platform: ntc
+#    name: $node_prefix golvtemperatur analog
+#    id: floor_temperature_analog
+#    accuracy_decimals: 2
+#    sensor: floor_temperature_analog_sensor
+#    # NTC Beta factor calibration
+##    calibration:
+##      b_constant: 3269
+##      reference_temperature: 25°C
+##      reference_resistance: 15kOhm
+#    # NTC calibration points for DEVI Devireg 500 according to documentation.
+#    calibration:
+#    # - 84.0kOhm -> -15°C
+#    # - 66.0kOhm -> -10°C
+#    # - 52.0kOhm -> -5°C
+#    # - 41.0kOhm -> 0°C
+#    # - 33.0kOhm -> 5°C
+#      - 27.0kOhm -> 10°C
+#    # - 22.0kOhm -> 15°C
+#    # - 18.0kOhm -> 20°C
+#      - 15.0kOhm -> 25°C
+#    # - 12.0kOhm -> 30°C
+#    # - 10.0kOhm -> 35°C
+#      - 8.6kOhm -> 40°C
+#    # - 7.2kOhm -> 45°C
+#    # - 6.1kOhm -> 50°C
+#    # - 5.2kOhm -> 55°C
+#    filters:
+#      - sliding_window_moving_average:
+#          window_size: 9
+#          send_every: 1
+#          send_first_at: 1
+##      - offset: -0.4
+#  # Resistance calculation
+#  - platform: resistance
+#    name: $node_prefix golvtemperatur analog sensor
+#    id: floor_temperature_analog_sensor
+#    icon: mdi:omega
+#    sensor: floor_temperature_analog_measure
+#    configuration: DOWNSTREAM
+#    resistor: 10kOhm
+#  # Voltage measurement (range 0.15-2.45V)
+#  - platform: adc
+#    id: floor_temperature_analog_measure
+#    pin: ADC0
+#    update_interval: never
+#    attenuation: 11db
+#    filters:
+#      - exponential_moving_average:
+#          alpha: 0.06
+#          send_every: 3
+#          send_first_at: 1
+#
+## Analog temperature sensor power source configuration
+#switch:
+#  - platform: gpio
+#    pin: GPIO16
+#    id: floor_analog_sensor_power
+#
+## Analog temperature sensor update interval
+#interval:
+#  - interval: 20s
+#    then:
+#      - switch.turn_on: floor_analog_sensor_power
+#      - delay: 1s
+#      - component.update: floor_temperature_analog_measure
+#      - delay: 1s
+#      - switch.turn_off: floor_analog_sensor_power
