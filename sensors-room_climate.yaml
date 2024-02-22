@@ -22,7 +22,7 @@ sensor:
 
 ## Room climate sensor BME280 (temperature, humidity and pressure)
 #sensor:
-#  - platform: bme280
+#  - platform: bme280_i2c
 #    temperature:
 #      name: $zone_name temperatur
 #      id: zone_temperature
