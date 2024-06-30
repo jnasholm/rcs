@@ -1,10 +1,10 @@
 # Floor temperature sensor configuration
 
 # Digital floor temperature sensor bus configuration
-#dallas:
-#  - pin: GPIO12
+#one_wire:
+#  - platform: gpio
+#    pin: GPIO12
 #    id: floor_temperature_bus
-#    update_interval: 20s
 
 # Sensor configurations
 sensor:
@@ -35,11 +35,12 @@ sensor:
       - heartbeat: 20s
 
 #  # Digital floor temperature sensor (DS18B20)
-#  - platform: dallas
+#  - platform: dallas_temp
 #    name: $node_prefix golvtemperatur digital
 #    id: floor_temperature_digital
 #    accuracy_decimals: 2
-#    dallas_id: floor_temperature_bus
+#    update_interval: 20s
+#    one_wire_id: floor_temperature_bus
 #    address: 0x2c0000081d200d28
 #    resolution: 12
 
@@ -92,7 +93,7 @@ sensor:
 #    id: floor_temperature_analog_measure
 #    pin: A0
 #    update_interval: never
-#    #attenuation: 11db
+#    #attenuation: 12db
 #    filters:
 #      - exponential_moving_average:
 #          alpha: 0.06
