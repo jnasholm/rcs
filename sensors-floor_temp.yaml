@@ -29,10 +29,15 @@ sensor:
   # Remote floor temperature sensor (Home Assistant)
   - platform: homeassistant
     id: floor_temperature_remote
+    unit_of_measurement: °C
+    device_class: temperature
+    state_class: measurement
     accuracy_decimals: 2
     entity_id: sensor.${zone_id}_golvtemperatur
     filters:
       - heartbeat: 20s
+      - lambda: if ( !isnan(id(floor_temperature_remote).state) ) return x; else return 10.0;
+
 
 #  # Digital floor temperature sensor (DS18B20)
 #  - platform: dallas_temp
