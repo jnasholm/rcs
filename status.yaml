@@ -8,16 +8,9 @@ output:
 
 # System status indicator
 light:
-  # LED on during normal operation; set inverted to true
   - platform: status_led
     name: $node_prefix systemstatus
     id: ${node_name}_system_status_indicator
-    pin:
-      number: GPIO13
-      inverted: false
-  # LED on during normal operation; set inverted to false
-  - platform: status_led
-    id: system_status_led
     pin:
       number: GPIO02
       inverted: false
@@ -32,9 +25,13 @@ light:
           transition_length: 0.2s
           update_interval: 0.6s
       - pulse:
-          name: manual_mode
+          name: summer_mode
           transition_length: 0.2s
           update_interval: 2s
+      - pulse:
+          name: manual_mode
+          transition_length: 0.2s
+          update_interval: 4s
 
 # Controller operational state indication
 binary_sensor:
@@ -42,6 +39,8 @@ binary_sensor:
     id: zone_actuator_status
     entity_id: binary_sensor.${zone_id}_aktiv
     publish_initial_state: true
+    filters:
+      - lambda: if ( !isnan(id(zone_actuator_status).state) ) return x; else return false;
     on_press:
       - light.turn_on:
           id: ${node_name}_controller_status_indicator
