@@ -84,7 +84,32 @@ sensor:
           window_size: 9
           send_every: 1
           send_first_at: 1
-#      - offset: -0.4
+    #  - offset: -0.4
+#  # Analog floor temperature sensor (RTD/PT1000)
+#  # https://en.wikipedia.org/wiki/Resistance_thermometer
+#  - platform: ntc
+#    name: $node_prefix golvtemperatur analog
+#    id: floor_temperature_analog
+#    accuracy_decimals: 2
+#    sensor: floor_temperature_analog_sensor
+#    # RTD calibration points for Titec KBTF PT1000 according to documentation.
+#    calibration:
+#    # - 0.9216kOhm -> -20.0°C
+#    # - 0.9609kOhm -> -10.0°C
+#    # - 1.0000kOhm -> 0.0°C
+#      - 1.0390kOhm -> 10.0°C
+#    # - 1.0779kOhm -> 20.0°C
+#      - 1.0974kOhm -> 25.0°C
+#    # - 1.1167kOhm -> 30.0°C
+#      - 1.1554kOhm -> 40.0°C
+#    # - 1.1940kOhm -> 50.0°C
+#    # - 1.2324kOhm -> 60.0°C
+#    filters:
+#      - sliding_window_moving_average:
+#          window_size: 9
+#          send_every: 1
+#          send_first_at: 1
+#    #  - offset: -0.4
   # Resistance calculation
   - platform: resistance
     name: $node_prefix golvtemperatur analog sensor
