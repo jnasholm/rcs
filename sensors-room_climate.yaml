@@ -36,3 +36,20 @@ sensor:
       id: zone_pressure
     address: 0x76
     update_interval: 10s
+  # Median temperature
+  - platform: template
+    name: $zone_name temperatur medel
+    id: zone_temperature_median
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+    device_class: temperature
+    state_class: measurement
+    accuracy_decimals: 2
+    update_interval: 10s
+    lambda: return (id(zone_temperature).state);
+    filters:
+      - median:
+          window_size: 24
+          send_every: 2
+          send_first_at: 1
+      - heartbeat: 10s
