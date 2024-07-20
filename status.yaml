@@ -48,3 +48,24 @@ binary_sensor:
     on_release:
       - light.turn_off:
           id: ${node_name}_controller_status_indicator
+
+# Status indicator rightness
+number:
+  - platform: template
+    name: $node_prefix ljusstyrka
+    id: ${node_name}_status_indicator_brightness
+    icon: mdi:lightbulb-on-outline
+    optimistic: true
+    mode: slider
+    unit_of_measurement: '%'
+    min_value: 20
+    max_value: 100
+    step: 1
+    initial_value: 100
+    restore_value: true
+    on_value:
+      then:
+        - light.control:
+            id: ${node_name}_controller_status_indicator
+            brightness: !lambda |-
+              return id(${node_name}_status_indicator_brightness).state / 100.0;
