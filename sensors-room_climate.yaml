@@ -53,3 +53,11 @@ sensor:
           send_every: 2
           send_first_at: 1
       - heartbeat: 10s
+
+# Broadcast room climate
+udp:
+  update_interval: 10s
+  sensors:
+    - zone_temperature
+    - zone_humidity
+    - zone_pressure

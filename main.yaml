@@ -10,21 +10,29 @@ substitutions:
   node_prefix: RK1
 
 # Define zone id and name
-  zone_id:   kok
+#  zone_id:   kok       # Used with sensor from Home Assistant
+  zone_id:   zone1      # Used with broadcast sensor
   zone_name: RK Kök
 #  zone_id:   hall
+#  zone_id:   zone2
 #  zone_name: RK Hall
 #  zone_id:   duschrum
+#  zone_id:   zone3
 #  zone_name: RK Duschrum
 #  zone_id:   vardagsrum
+#  zone_id:   zone4
 #  zone_name: RK Vardagsrum
 #  zone_id:   arbetsrum
+#  zone_id:   zone5
 #  zone_name: RK Arbetsrum
 #  zone_id:   barnrum
+#  zone_id:   zone6
 #  zone_name: RK Barnrum
 #  zone_id:   sovrum
+#  zone_id:   zone7
 #  zone_name: RK Sovrum
 #  zone_id:   teverum
+#  zone_id:   zone8
 #  zone_name: RK Teverum
 
 # Board configuration
@@ -55,6 +63,10 @@ ota:
   - platform: esphome
     password: !secret ota_password
 
+# Enable broadcast
+udp:
+  encryption: !secret broadcast_key
+
 # Node switches
 switch:
   - platform: restart
@@ -76,3 +88,4 @@ packages:
   status: !include status.yaml
   room_climate: !include sensors-room_climate.yaml
   floor_temp: !include sensors-floor_temp.yaml
+  outdoor_temp: !include sensors-outdoor_temp.yaml

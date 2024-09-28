@@ -1,5 +1,14 @@
 # Status configuration
 
+# Broadcast provider configuration
+substitutions:
+  status_provider_node_name: fhc1
+
+udp:
+  providers:
+    - name: $status_provider_node_name
+      encryption: !secret broadcast_key
+
 # Controller status indicator
 output:
   - platform: esp8266_pwm
@@ -33,11 +42,28 @@ light:
           transition_length: 0.2s
           update_interval: 4s
 
-# Controller operational state indication
+# Controller operational state indication (Home Assistant)
+#binary_sensor:
+#  - platform: homeassistant
+#    id: zone_actuator_status
+#    entity_id: binary_sensor.${zone_id}_aktiv
+#    publish_initial_state: true
+#    filters:
+#      - lambda: if ( !isnan(id(zone_actuator_status).state) ) return x; else return false;
+#    on_press:
+#      - light.turn_on:
+#          id: ${node_name}_controller_status_indicator
+#          effect: none
+#    on_release:
+#      - light.turn_off:
+#          id: ${node_name}_controller_status_indicator
+
+# Controller operational state indication (Broadcast)
 binary_sensor:
-  - platform: homeassistant
+  - platform: udp
+    provider: $status_provider_node_name
     id: zone_actuator_status
-    entity_id: binary_sensor.${zone_id}_aktiv
+    remote_id: ${zone_id}_actuator_status
     publish_initial_state: true
     filters:
       - lambda: if ( !isnan(id(zone_actuator_status).state) ) return x; else return false;
