@@ -48,10 +48,9 @@ sensor:
     update_interval: 10s
     lambda: return (id(zone_temperature).state);
     filters:
-      - median:
-          window_size: 24
-          send_every: 2
-          send_first_at: 1
+      - sliding_window_moving_average:
+          window_size: 180  # 30 min
+          send_every: 1
       - heartbeat: 10s
 
 # Broadcast room climate
